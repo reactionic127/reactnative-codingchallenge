@@ -11,7 +11,7 @@ import {
 import {Actions} from 'react-native-router-flux'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import Carousel from 'react-native-snap-carousel'
+import Carousel, {Pagination, ParallaxImage} from 'react-native-snap-carousel'
 import { ActionCreators } from '../actions'
 import { dynamicSize, getFontSize } from '../utils/DynamicSize'
 
@@ -23,11 +23,32 @@ const sliderWidth = Dimensions.get('window').width;
 const itemWidth = slideWidth + horizontalMargin * 2;
 const itemHeight = 200;
 
+const SLIDER_1_FIRST_ITEM = 1;
+
+export const ENTRIES = [
+    {
+        title: "Let's get started",
+        subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
+        illustration: 'http://i.imgur.com/UYiroysl.jpg'
+	},
+	{
+        title: "Page 2",
+        subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
+        illustration: 'http://i.imgur.com/UYiroysl.jpg'
+	},
+	{
+        title: "Page 3",
+        subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
+        illustration: 'http://i.imgur.com/UYiroysl.jpg'
+    }
+];
+
 class Login extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			
+			slider1ActiveSlide: SLIDER_1_FIRST_ITEM,
+			slider1Ref: null
 		}
 	}
 	componentDidMount() {
@@ -41,28 +62,76 @@ class Login extends Component {
 	_renderItem ({item, index}) {
         return (
             <View style={styles.slide}>
-                <Text style={styles.title}>{ item.title }</Text>
-            </View>
+				<Text style={styles.largeText}>
+					Let’s get
+				</Text>
+				<Text style={styles.largeText}>
+					started!
+				</Text>
+			</View>
         );
 	}
+
+	_renderItemWithParallax ({item, index}, parallaxProps) {
+		const { illustration } = item
+		const even = (index + 1) % 2 === 0
+        return (
+            <TouchableOpacity
+				activeOpacity={1}
+				style={styles.slideInnerContainer}
+				onPress={() => { alert(`You've clicked '${title}'`); }}
+				>
+				<View style={[styles.imageContainer, even ? styles.imageContainerEven : {}]}>
+					<ParallaxImage
+						source={{ uri: illustration }}
+						containerStyle={[styles.imageContainer, even ? styles.imageContainerEven : {}]}
+						style={[styles.image, { position: 'relative' }]}
+						parallaxFactor={0.35}
+						showSpinner={true}
+						spinnerColor={even ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.25)'}
+						{...parallaxProps}
+					/>
+					<View style={[styles.radiusMask, even ? styles.radiusMaskEven : {}]} />
+				</View>
+			</TouchableOpacity>
+        );
+    }
 	
 	render() {
+		let {slider1ActiveSlide, slider1Ref} = this.state
 		return (
 			<View style={styles.container}>
-				<View style={styles.startView}>
-					<Text style={styles.largeText}>
-						Let’s get
-					</Text>
-					<Text style={styles.largeText}>
-						started!
-					</Text>
-				</View>
 				<Carousel
-					ref={(c) => { this._carousel = c; }}
-					data={this.state.entries}
-					renderItem={this._renderItem}
+					ref={(c) => { if (!slider1Ref) { this.setState({ slider1Ref: c }); } }}
+					data={ENTRIES}
+					renderItem={this._renderItemWithParallax}
 					sliderWidth={sliderWidth}
 					itemWidth={itemWidth}
+					hasParallaxImages={true}
+					firstItem={SLIDER_1_FIRST_ITEM}
+					inactiveSlideScale={0.94}
+					inactiveSlideOpacity={0.7}
+					enableMomentum={false}
+					containerCustomStyle={styles.slider}
+					contentContainerCustomStyle={styles.sliderContentContainer}
+					loop={true}
+					loopClonesPerSide={2}
+					autoplay={true}
+					autoplayDelay={500}
+					autoplayInterval={3000}
+					onSnapToItem={(index) => this.setState({ slider1ActiveSlide: index }) }
+                />
+				<Pagination
+					dotsLength={ENTRIES.length}
+					activeDotIndex={slider1ActiveSlide}
+					containerStyle={styles.paginationContainer}
+					dotColor={'rgba(255, 255, 255, 0.92)'}
+					dotStyle={styles.paginationDot}
+					inactiveDotColor={'black'}
+					inactiveDotOpacity={0.4}
+					inactiveDotScale={0.6}
+					carouselRef={slider1Ref}
+					tappableDots={!!slider1Ref}
 				/>
 				<View style={styles.buttonView}>
 					<TouchableOpacity style={styles.login} onPress={()=> this.onLogin()}>
@@ -125,7 +194,19 @@ const styles = StyleSheet.create({
 	slide: {
         width: itemWidth,
         height: itemHeight
-    }
+	},
+	paginationContainer: {
+        paddingVertical: dynamicSize(8)
+    },
+	imageContainer: {
+        flex: 1,
+        backgroundColor: 'white',
+        borderTopLeftRadius: 8,
+        borderTopRightRadius: 8
+    },
+    imageContainerEven: {
+        backgroundColor: 'black'
+    },
 });
 
 function mapDispatchToProps(dispatch) {
