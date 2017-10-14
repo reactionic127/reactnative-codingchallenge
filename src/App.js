@@ -5,6 +5,7 @@ import { createStore, applyMiddleware, combineReducers, compose} from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import reducer from './reducers'
 import Login from './containers/Login'
+import Card from './containers/Card'
 
 const RouterWithRedux = connect()(Router)
 function configureStore(initialState) {
@@ -24,7 +25,19 @@ class App extends Component {
 			<Provider store={store}>
 				<RouterWithRedux>
 					<Scene key="root">
-						<Scene key='login' component={Login} title='Login Page'  hideNavBar={true}/>
+						<Scene 
+							key='login' 
+							component={Login} 
+							title=''  
+							hideNavBar={true}
+						/>
+            			<Scene 
+							key='card' 
+							component={Card} 
+							title='Activate Card'  
+							hideNavBar={false}
+							titleStyle={{color: '#4072FF'}}
+						/>
 					</Scene>
 				</RouterWithRedux>
 			</Provider>

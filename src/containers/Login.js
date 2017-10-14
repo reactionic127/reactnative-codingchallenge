@@ -17,7 +17,7 @@ import { dynamicSize, getFontSize } from '../utils/DynamicSize'
 
 const {height, width} = Dimensions.get('window')
 const horizontalMargin = 20;
-const slideWidth = 280;
+const slideWidth = 375;
 
 const sliderWidth = Dimensions.get('window').width;
 const itemWidth = slideWidth + horizontalMargin * 2;
@@ -56,7 +56,7 @@ class Login extends Component {
 	}
 
 	onLogin() {
-
+		Actions.card();
 	}
 	
 	_renderItem ({item, index}) {
@@ -124,7 +124,9 @@ const styles = StyleSheet.create({
 	},
 	largeText: {
 		fontSize: getFontSize(52),
-		color: 'white'
+		color: 'white',
+		paddingLeft: dynamicSize(25),
+		fontWeight: 'bold'
 	},
 	buttonView: {
 		width: width,
@@ -142,7 +144,7 @@ const styles = StyleSheet.create({
 	},
 	loginText: {
 		fontSize: getFontSize(16),
-		color: '#4072FF',
+		color: '#4072FF'
 	},
 	signup: {
 		width: dynamicSize(155),
