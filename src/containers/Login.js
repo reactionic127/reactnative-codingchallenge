@@ -21,7 +21,7 @@ const slideWidth = 280;
 
 const sliderWidth = Dimensions.get('window').width;
 const itemWidth = slideWidth + horizontalMargin * 2;
-const itemHeight = 200;
+const itemHeight = 550;
 
 const SLIDER_1_FIRST_ITEM = 1;
 
@@ -124,14 +124,14 @@ const styles = StyleSheet.create({
 	},
 	largeText: {
 		fontSize: getFontSize(52),
-		color: 'white',
-		paddingLeft: dynamicSize(20)
+		color: 'white'
 	},
 	buttonView: {
 		width: width,
 		flexDirection: 'row',
 		justifyContent: 'center',
-		alignItems: 'center'
+		alignItems: 'center',
+		marginBottom: dynamicSize(20)
 	},
 	login: {
 		width: dynamicSize(155),
@@ -153,11 +153,14 @@ const styles = StyleSheet.create({
 		marginLeft: dynamicSize(20)
 	},
 	slide: {
-        width: itemWidth,
-        height: itemHeight
+        width: dynamicSize(itemWidth),
+		height: dynamicSize(itemHeight),
+		justifyContent: 'flex-end',
+		alignItems: 'flex-start'
 	},
 	paginationContainer: {
-        paddingVertical: dynamicSize(8)
+		paddingVertical: dynamicSize(8),
+		marginBottom: dynamicSize(10)
     },
 	imageContainer: {
         flex: 1,
