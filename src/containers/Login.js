@@ -71,56 +71,17 @@ class Login extends Component {
 			</View>
         );
 	}
-
-	_renderItemWithParallax ({item, index}, parallaxProps) {
-		const { illustration } = item
-		const even = (index + 1) % 2 === 0
-        return (
-            <TouchableOpacity
-				activeOpacity={1}
-				style={styles.slideInnerContainer}
-				onPress={() => { alert(`You've clicked '${title}'`); }}
-				>
-				<View style={[styles.imageContainer, even ? styles.imageContainerEven : {}]}>
-					<ParallaxImage
-						source={{ uri: illustration }}
-						containerStyle={[styles.imageContainer, even ? styles.imageContainerEven : {}]}
-						style={[styles.image, { position: 'relative' }]}
-						parallaxFactor={0.35}
-						showSpinner={true}
-						spinnerColor={even ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.25)'}
-						{...parallaxProps}
-					/>
-					<View style={[styles.radiusMask, even ? styles.radiusMaskEven : {}]} />
-				</View>
-			</TouchableOpacity>
-        );
-    }
 	
 	render() {
-		let {slider1ActiveSlide, slider1Ref} = this.state
+		const { slider1ActiveSlide, slider1Ref } = this.state;
 		return (
 			<View style={styles.container}>
 				<Carousel
-					ref={(c) => { if (!slider1Ref) { this.setState({ slider1Ref: c }); } }}
 					data={ENTRIES}
-					renderItem={this._renderItemWithParallax}
+					renderItem={this._renderItem}
 					sliderWidth={sliderWidth}
 					itemWidth={itemWidth}
-					hasParallaxImages={true}
-					firstItem={SLIDER_1_FIRST_ITEM}
-					inactiveSlideScale={0.94}
-					inactiveSlideOpacity={0.7}
-					enableMomentum={false}
-					containerCustomStyle={styles.slider}
-					contentContainerCustomStyle={styles.sliderContentContainer}
-					loop={true}
-					loopClonesPerSide={2}
-					autoplay={true}
-					autoplayDelay={500}
-					autoplayInterval={3000}
-					onSnapToItem={(index) => this.setState({ slider1ActiveSlide: index }) }
-                />
+				/>
 				<Pagination
 					dotsLength={ENTRIES.length}
 					activeDotIndex={slider1ActiveSlide}
