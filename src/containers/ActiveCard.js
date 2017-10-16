@@ -17,7 +17,6 @@ import { ActionCreators } from '../actions'
 import { dynamicSize, getFontSize } from '../utils/DynamicSize'
 
 const {height, width} = Dimensions.get('window')
-const cardIcon =  require('../images/credit.png');
 
 class ActiveCard extends Component {
 	constructor(props) {
@@ -34,7 +33,7 @@ class ActiveCard extends Component {
 	}
 
 	onContinue() {
-		
+		Actions.notification()	
 	}
 
 	render() {

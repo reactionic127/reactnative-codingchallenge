@@ -12,6 +12,7 @@ import Login from './containers/Login'
 import Card from './containers/Card'
 import Password from './containers/Password'
 import ActiveCard from './containers/ActiveCard'
+import Notification from './containers/Notification'
 
 const RouterWithRedux = connect()(Router)
 function configureStore(initialState) {
@@ -56,6 +57,14 @@ class App extends Component {
 							key='activeCard' 
 							component={ActiveCard} 
 							title='Active Card'
+							hideNavBar={false}
+							back={true}
+							titleStyle={{color: '#4072FF'}}
+						/>
+						<Scene 
+							key='notification' 
+							component={Notification} 
+							title='Push Notifications'
 							hideNavBar={false}
 							back={true}
 							titleStyle={{color: '#4072FF'}}
