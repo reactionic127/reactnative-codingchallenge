@@ -5,7 +5,8 @@ import {
 	Text,
 	TouchableOpacity,
 	StyleSheet,
-	Dimensions
+	Dimensions,
+	Image
 } 
 	from 'react-native'
 import {Actions} from 'react-native-router-flux'
@@ -15,6 +16,7 @@ import { ActionCreators } from '../actions'
 import { dynamicSize, getFontSize } from '../utils/DynamicSize'
 
 const {height, width} = Dimensions.get('window')
+const cardIcon =  require('../images/credit.png');
 
 class Card extends Component {
 	constructor(props) {
@@ -34,6 +36,12 @@ class Card extends Component {
 	render() {
 		return (
 			<View style={styles.container}>
+				<View style={styles.cardView}>
+					<Image 
+						source={cardIcon} 
+						style={styles.cardIcon} 
+					/>
+				</View>
 				<View style={styles.slide}>
 					<Text style={styles.largeText}>
 						Activate your
@@ -75,11 +83,28 @@ const styles = StyleSheet.create({
 	largeText: {
 		fontSize: getFontSize(41),
 		color: '#2B2C32',
-		paddingLeft: dynamicSize(26),
 		fontWeight: 'bold'
 	},
 	slide: {
+		width: width - dynamicSize(20),
+		marginLeft: dynamicSize(10),
 		marginBottom: dynamicSize(90)
+	},
+	cardView: {
+		width: width - dynamicSize(20),
+		marginLeft: dynamicSize(10),
+		marginBottom: dynamicSize(30)
+	},
+	cardIcon: {
+		width: dynamicSize(200),
+		height: dynamicSize(125),
+		shadowColor: "rgba(0, 0, 0, 0.18)",
+		shadowOffset: {
+			width: 0,
+			height: 16
+		},
+		shadowRadius: 18,
+		shadowOpacity: 1
 	}
 });
 
