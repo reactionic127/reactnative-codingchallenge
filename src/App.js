@@ -9,7 +9,6 @@ import {Provider, connect} from 'react-redux'
 import { createStore, applyMiddleware, combineReducers, compose} from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import {Actions} from 'react-native-router-flux'
-import Icon from 'react-native-vector-icons/FontAwesome';
 import reducer from './reducers'
 import Login from './containers/Login'
 import Card from './containers/Card'

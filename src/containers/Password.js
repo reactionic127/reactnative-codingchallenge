@@ -12,6 +12,7 @@ import {
 import {Actions} from 'react-native-router-flux'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { ActionCreators } from '../actions'
 import { dynamicSize, getFontSize } from '../utils/DynamicSize'
 
@@ -22,7 +23,11 @@ class Password extends Component {
 		super(props)
 		this.state = {
 			password: '',
-			confirmPassword: ''	
+			confirmPassword: '',
+			isLengthValid: false,
+			isCapitalValid: false,
+			isOneNumberValid: false,
+			isMatched: false
 		}
 	}
 	componentWillMount() {
@@ -33,8 +38,68 @@ class Password extends Component {
 		Actions.activeCard()
 	}
 
+	hasUpperCase(str) {
+		return (/[A-Z]/.test(str));
+	}
+
+	hasNumber(myString) {
+		return /\d/.test(myString);
+	}
+
+	onPasswordValidation(text) {
+		let {password, confirmPassword, isLengthValid, isCapitalValid, isOneNumberValid} = this.state
+		this.setState({
+			password: text,
+			confirmPassword: confirmPassword
+		})
+		if(text.length > 7){
+			this.setState({
+				isLengthValid: true
+			})	
+		}else{
+			this.setState({
+				isLengthValid: false
+			})	
+		}
+		if(this.hasUpperCase(text)) {
+			this.setState({
+				isCapitalValid: true
+			})
+		}else{
+			this.setState({
+				isCapitalValid: false
+			})	
+		}
+		if(this.hasNumber(text)) {
+			this.setState({
+				isOneNumberValid: true
+			})
+		}else{
+			this.setState({
+				isOneNumberValid: false
+			})	
+		}
+	}
+
+	onConfirmPasswordValidation(text) {
+		let {password, confirmPassword, isMatched} = this.state
+		this.setState({
+			password: password,
+			confirmPassword: text
+		})
+		if(password !== '' && password === text) {
+			this.setState({
+				isMatched: true
+			})
+		}else {
+			this.setState({
+				isMatched: false
+			})
+		}
+	}
+
 	render() {
-		let {password, confirmPassword} = this.state
+		let {password, confirmPassword, isLengthValid, isCapitalValid, isOneNumberValid, isMatched} = this.state
 		return (
 			<View style={styles.container}>
 				<View style={styles.passwordView}>
@@ -43,7 +108,7 @@ class Password extends Component {
 					</Text>
 					<TextInput 
 						style={styles.passwordInput}
-						placeholder="Password" 
+						placeholder="Password"
 						size={14}
 						autoCapitalize="none"
 						value={password}
@@ -53,12 +118,28 @@ class Password extends Component {
 						onSubmitEditing={(event) => {
 							this.refs.confirmPassword.focus();
 						}}
-						onChangeText={text => this.setState(
-						{
-							password: text,
-							confirmPassword: confirmPassword
-						})}
+						onChangeText={text => 
+							this.onPasswordValidation(text)
+						}
 					/>
+					<View style={styles.validTextView}>
+						<Icon name="check" size={12} color={isLengthValid ? '#4072ff' : '#8c95a4'}/>
+						<Text style={{fontSize: 14, lineHeight: 24.0, color: isLengthValid ? "#4072ff" : "#8c95a4", marginLeft: 10}}>
+							8 characters
+						</Text>
+					</View>
+					<View style={styles.validTextView}>
+						<Icon name="check" size={12} color={isCapitalValid ? '#4072ff' : '#8c95a4'}/>
+						<Text style={{fontSize: 14, lineHeight: 24.0, color: isCapitalValid ? "#4072ff" : "#8c95a4", marginLeft: 10}}>
+							Capital letter
+						</Text>
+					</View>
+					<View style={styles.validTextView}>
+						<Icon name="check" size={12} color={isOneNumberValid ? '#4072ff' : '#8c95a4'}/>
+						<Text style={{fontSize: 14, lineHeight: 24.0, color: isOneNumberValid ? "#4072ff" : "#8c95a4", marginLeft: 10}}>
+							One number
+						</Text>
+					</View>
 				</View>
 				<View style={styles.confirmPasswordView}>
 					<Text style={styles.passwordText}>
@@ -76,12 +157,20 @@ class Password extends Component {
 						onSubmitEditing={(event) => {
 							
 						}}
-						onChangeText={text => this.setState(
-						{
-							password: password,
-							confirmPassword: text
-						})}
+						onChangeText={text => 
+							this.onConfirmPasswordValidation(text)
+						}
 					/>
+					<View style={styles.matchParentView}>
+						{isMatched &&
+							<View style={styles.matchedView}>
+								<Icon name="check" size={12} color={isMatched ? '#7ac143' : '#8c95a4'}/>
+								<Text style={{fontSize: 14, lineHeight: 24.0, color: isMatched ? "#7ac143" : "#8c95a4", marginLeft: 10}}>
+									Match!
+								</Text>
+							</View>
+						}
+					</View>
 				</View>
 				<TouchableOpacity style={styles.continue} onPress={()=> this.onContinue()}>
 					<Text style={styles.continueText}>
@@ -107,7 +196,7 @@ const styles = StyleSheet.create({
 	confirmPasswordView: {
 		width: width - dynamicSize(20),
 		marginLeft: dynamicSize(10),
-		marginTop: dynamicSize(50)
+		marginTop: dynamicSize(10)
 	},
 	passwordText: {
 		fontSize: getFontSize(13),
@@ -137,6 +226,18 @@ const styles = StyleSheet.create({
 	continueText: {
 		color: 'white'
 	},
+	validTextView: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		marginTop: dynamicSize(5)
+	},
+	matchParentView: {
+		height: dynamicSize(40)
+	},
+	matchedView: {
+		flexDirection: 'row',
+		alignItems: 'center',
+	}
 });
 
 function mapDispatchToProps(dispatch) {
