@@ -41,10 +41,10 @@ class Notification extends Component {
 					<View style={styles.titleView}>
 						<View style={styles.leftView}>
 							<View style={styles.appIcon}/>
-							<Text style={styles.labelText}>
-								App name
-							</Text>
-						</View>
+								<Text style={styles.nameText}>
+									App name
+								</Text>
+							</View>
 						<View style={styles.rightView}>
 							<Text style={styles.timeText}>
 								now
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "#4072ff",
 		marginLeft: dynamicSize(10),
 	},
-	labelText: {
+	nameText: {
 		opacity: 0.9,
 		fontSize: 13,
 		fontWeight: "300",
