@@ -30,7 +30,7 @@ class Card extends Component {
 	}
 
 	onContinue() {
-
+		Actions.password();
 	}
 
 	render() {

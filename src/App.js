@@ -1,4 +1,8 @@
 import React, {Component} from 'react'
+import {
+	Text
+} 
+	from 'react-native'
 import {Router, Scene} from 'react-native-router-flux'
 import {Provider, connect} from 'react-redux'
 import { createStore, applyMiddleware, combineReducers, compose} from 'redux'
@@ -6,6 +10,7 @@ import thunkMiddleware from 'redux-thunk'
 import reducer from './reducers'
 import Login from './containers/Login'
 import Card from './containers/Card'
+import Password from './containers/Password'
 
 const RouterWithRedux = connect()(Router)
 function configureStore(initialState) {
@@ -36,6 +41,14 @@ class App extends Component {
 							component={Card} 
 							title='Activate Card'  
 							hideNavBar={false}
+							titleStyle={{color: '#4072FF'}}
+						/>
+						<Scene 
+							key='password' 
+							component={Password} 
+							title='Set Your Password'
+							hideNavBar={false}
+							back={true}
 							titleStyle={{color: '#4072FF'}}
 						/>
 					</Scene>
