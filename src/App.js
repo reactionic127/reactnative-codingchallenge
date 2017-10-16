@@ -11,6 +11,7 @@ import reducer from './reducers'
 import Login from './containers/Login'
 import Card from './containers/Card'
 import Password from './containers/Password'
+import ActiveCard from './containers/ActiveCard'
 
 const RouterWithRedux = connect()(Router)
 function configureStore(initialState) {
@@ -47,6 +48,14 @@ class App extends Component {
 							key='password' 
 							component={Password} 
 							title='Set Your Password'
+							hideNavBar={false}
+							back={true}
+							titleStyle={{color: '#4072FF'}}
+						/>
+						<Scene 
+							key='activeCard' 
+							component={ActiveCard} 
+							title='Active Card'
 							hideNavBar={false}
 							back={true}
 							titleStyle={{color: '#4072FF'}}

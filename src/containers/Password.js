@@ -29,6 +29,10 @@ class Password extends Component {
 		
 	}
 	
+	onContinue() {
+		Actions.activeCard()
+	}
+
 	render() {
 		let {password, confirmPassword} = this.state
 		return (
@@ -56,7 +60,7 @@ class Password extends Component {
 						})}
 					/>
 				</View>
-				<View style={styles.passwordView}>
+				<View style={styles.confirmPasswordView}>
 					<Text style={styles.passwordText}>
 						Confirm new password
 					</Text>
@@ -79,6 +83,11 @@ class Password extends Component {
 						})}
 					/>
 				</View>
+				<TouchableOpacity style={styles.continue} onPress={()=> this.onContinue()}>
+					<Text style={styles.continueText}>
+						Continue
+					</Text>
+				</TouchableOpacity>
 			</View>
 		);
 	}    
@@ -92,9 +101,13 @@ const styles = StyleSheet.create({
 	},
 	passwordView: {
 		width: width - dynamicSize(20),
-		height: dynamicSize(50),
 		marginLeft: dynamicSize(10),
-		marginTop: dynamicSize(30)
+		marginTop: dynamicSize(10)
+	},
+	confirmPasswordView: {
+		width: width - dynamicSize(20),
+		marginLeft: dynamicSize(10),
+		marginTop: dynamicSize(50)
 	},
 	passwordText: {
 		fontSize: getFontSize(13),
@@ -110,7 +123,20 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 1,
 		opacity: 0.3,
 		borderColor: "#8c95a4"
-	}
+	},
+	continue: {
+		width: width - dynamicSize(20),
+		height: dynamicSize(50),
+		marginLeft: dynamicSize(10),
+		backgroundColor: '#4072FF',
+		justifyContent: 'center',
+		alignItems: 'center',
+		marginTop: dynamicSize(50),
+		borderRadius: dynamicSize(2)
+	},
+	continueText: {
+		color: 'white'
+	},
 });
 
 function mapDispatchToProps(dispatch) {
